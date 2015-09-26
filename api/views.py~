@@ -1,0 +1,26 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import Relation
+
+
+def relationships(request):
+    str = '['
+    for r in Relation.objects.all():
+        str += '\n' + r.__str__() + ','
+    str = str[0:-1]
+    str += ']'
+    return HttpResponse(str);
+
+def sharers(request, owner):
+    str = '['
+    for r in Relation.objects.filter(sharer=owner):
+        str += '\n' + r.__str__() + ','
+    if str[-1] == ',':
+        str = str[0:-1]
+    str += '\n]'
+    return HttpResponse(str);
+
+
+
+
+# Create your views here.
