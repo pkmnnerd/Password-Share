@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>API Docs</title
+</head>
+
+<body>
+<h2>/api/owners/&lt;user&gt;/</h2>
+<h3>GET</h3>
+Returns a list of the users passwords shared to others for various services<br>
+Example:<br>
+Input:<br>
+<code>
+/api/owners/user1/
+</code><br>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user2",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "example1.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+<h2>/api/owners/&lt;user&gt;/&lt;service&gt;/</h2>
+<h3>GET</h3>
+Returns a list of the users passwords shared to others for a specific service<br>
+Example:<br>
+Input:<br>
+<code>
+/api/owners/user1/service.com/
+</code><br>
+Output:<br>
+<code>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user0",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "example2.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+
+<h3>DELETE</h3>
+Returns a list of the users passwords shared to others for a specific service<br>
+Example:<br>
+Input:<br>
+<code>
+/api/owners/user1/service.com/
+</code><br>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user2",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "service.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+
+
+
+<h2>/api/moochers/&lt;user&gt;/</h2>
+<h3>GET</h3>
+Returns a list of passwords shared with the user for various services<br>
+Example:<br>
+Input:<br>
+<code>
+/api/moochers/user1/
+</code><br>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user0",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "example2.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+
+<h2>/api/moochers/&lt;user&gt;/&lt;service&gt;/</h2>
+<h3>GET</h3>
+Returns a list of passwords shared with the user for a specific service<br>
+Example:<br>
+Input:<br>
+<code>
+/api/moochers/user1/service.com/
+</code><br>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user0",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "service.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+
+
+<h2>/api/relations/</h2>
+<h3>GET </h3>
+Returns a list of all owner, moocher, service groups. Admin only<br>
+Example:<br>
+Input:<br>
+<code>
+/api/relations/
+</code><br>
+Output:<br>
+<code>
+[<br>
+&nbsp; &nbsp; &nbsp; {<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "owner": "user0",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "moocher": "user1",<br>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "service": "example2.com"<br>
+&nbsp; &nbsp; &nbsp; },<br>
+&nbsp; &nbsp; &nbsp; ...<br>
+]<br>
+</code>
+
+<h3>POST</h3>
+Adds a owner, moocher, service relationship<br>
+Example:<br>
+Input:<br>
+<code>
+/api/relations/<br>
+<br>
+</code>
+Fields:<br>
+<code>
+owner: user1<br>
+moocher: user2<br>
+service: example3.com<br>
+</code><br>
+Output:<br>
+<code>
+{<br>
+&nbsp; &nbsp; &nbsp; "owner": "user0",<br>
+&nbsp; &nbsp; &nbsp; "moocher": "user1",<br>
+&nbsp; &nbsp; &nbsp; "service": "example2.com"<br>
+}<br>
+</code>
+
+
+<h2>/api/users/</h2>
+<h3>POST</h3>
+Attempts to create a new user.<br>
+Example:<br>
+Fields:<br>
+<code>
+username: Brian
+password: password
+email: test@test.com
+</code>
+
+<h2>/api/users/login/</h2>
+<h3>POST</h3>
+Attempts to log a user in.<br>
+Example:<br>
+Fields:<br>
+<code>
+username: Brian
+password: password
+</code>
+
+<h2>/api/users/logout/</h2>
+<h3>POST</h3>
+Attempts to log the current user out.<br>
+
+<h2>/api/&lt;moocher&gt;/&lt;service&gt;/</h2>
+<h3>POST</h3>
+Uploads cookies for moocher and service <br>
+
+<h3>GET</h3>
+Gets cookies shared to moocher for service <br>
+
+
+
+
+</body>
+</html>

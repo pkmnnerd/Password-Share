@@ -1,0 +1,80 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+import api.views
+from api.models import Relation
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
+from django.views.decorators.csrf import csrf_exempt
+
+def index(request):
+    f = open('templates/index.html', 'r')
+    text = f.read()
+    return HttpResponse(text)
+
+
+def login(request):
+    if request.user.is_authenticated():
+        f = open('api/redirect.html','r')
+    else:
+        f = open('templates/login.html', 'r')
+    text = f.read()
+    return HttpResponse(text)
+
+
+def register(request):
+    f = open('templates/register.html', 'r')
+    text = f.read()
+    return HttpResponse(text)
+
+
+def manage(request):
+    if not request.user.is_authenticated():
+        f = open('templates/to_login.html', 'r')
+        text = f.read()
+        return HttpResponse(text)
+
+    else:
+        params = {}
+        params['username'] = request.user.username
+        params['owned'] = ''
+
+        b_temp = '<a href="#" onclick="delete1(\'%(moocher)s\', \'%(service)s\');'
+        b_temp += ' return false;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>'
+
+        for r in Relation.objects.filter(sharer=request.user.username):
+            t = ''
+            t+= '<tr><td>' + r.sharer + '</td>'
+            t+= '<td>' + r.moocher + '</td>'
+            t+= '<td>' + r.service + '</td>'
+            p_temp = {}
+            p_temp['moocher'] = r.moocher
+            p_temp['service'] = r.service
+            t+= '<td>' + b_temp % p_temp 
+            t+= '</td></tr>'
+            params['owned']+= t
+        params['owned'] += ''
+
+        b_temp = '<a href="#" onclick="delete2(\'%(owner)s\', \'%(ser\
+vice)s\');'
+        b_temp += ' return false;"><span class="glyphicon glyphicon-tras\
+h" aria-hidden="true"></span></a>'
+
+
+        params['mooched'] = ''
+        for r in Relation.objects.filter(moocher=request.user.username):
+            t = ''
+            t+= '<tr><td>' + r.sharer + '</td>'
+            t+= '<td>' + r.moocher + '</td>'
+            t+= '<td>' + r.service + '</td>'
+            p_temp = {}
+            p_temp['owner'] = r.sharer
+            p_temp['sharer'] = r.service
+            t+= '<td>' + b_temp % p_temp
+            t+= '</td></tr>'
+            params['mooched']+= t
+        params['mooched'] += ''
+
+        f = open('templates/manage.html', 'r')
+        text = f.read()
+        return HttpResponse(text % params)
